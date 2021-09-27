@@ -1,5 +1,6 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-var playlist = '
+/*var playlist = '
 #EXTM3U #EXTINF:-1,TELEMUNDO
 http://iphone-streaming.ustream.tv/ustreamVideo/21733416/streams/live/playlist.m3u8
 #EXTINF:0,TELEMUNDO
@@ -12,8 +13,15 @@ http://iphone-streaming.ustream.tv/ustreamVideo/21680354/streams/live/playlist.m
 
 #EXTINF:-1,TVeo Miami
 http://iphone-streaming.ustream.tv/uhls/14034121/streams/live/iphone/playlist.m3u8';
-
+*/
+var url = '"https://raw.githubusercontent.com/tele-vivo/convert-m3u8-to-json-data/dev-01/index.m3u8"';
+ var playlist = '';
+$.get(url, function(data) {
+   playlist = data;
+}, 'text');
 function m3utojson(m3u) {
+return m3u;
+/*
     return m3u
         .replace('#EXTM3U', '')
         .split('#EXTINF:0,')
@@ -23,19 +31,19 @@ function m3utojson(m3u) {
 
             return {
                 "id": index + 1,
-                "number": index + 1,
+               // "number": index + 1,
                 "title": channel[0],
-                "tv_logo": "",
-                "tv_categories": [2],
+                //"tv_logo": "",
+               // "tv_categories": [2],
                 "streaming_url": channel[1],
-                "announce": "",
-                "volume_shift": 0
+               // "announce": "",
+               // "volume_shift": 0
             };
-        });
+        });*/
 }
 
 
-var parseM3U = m3utojson(playlist) ;
+var parseM3U = m3utojson(url) ;
 
 console.log(parseM3U);
 </script>
