@@ -19,7 +19,7 @@ var url = 'https://raw.githubusercontent.com/tele-vivo/convert-m3u8-to-json-data
  var playlist = '';
 $.get(url, function(data) {
    playlist = data;
-   console.log('a');
+   console.log(data);
 }, 'text');
  console.log(playlist);
 function m3utojson(m3u) {
