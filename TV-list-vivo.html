@@ -15,18 +15,18 @@ http://iphone-streaming.ustream.tv/ustreamVideo/21680354/streams/live/playlist.m
 http://iphone-streaming.ustream.tv/uhls/14034121/streams/live/iphone/playlist.m3u8';
 */
 var url = 'https://raw.githubusercontent.com/tele-vivo/convert-m3u8-to-json-data/dev-01/index.m3u8';
-var url = 'https://raw.githubusercontent.com/tele-vivo/convert-m3u8-to-json-data/dev-01/index.m3u8';
+/*var url = 'https://raw.githubusercontent.com/tele-vivo/convert-m3u8-to-json-data/dev-01/index.m3u8';
  var playlist = '';
 $.get(url, function(data) {
    playlist = data;
    console.log(data);
 }, 'text');
- console.log(playlist);
+ console.log(playlist);*/
 function m3utojson(m3u) {
 
     return m3u
         .replace('#EXTM3U', '')
-        .split('#EXTINF:0,')
+        .split('#EXTINF:-1,')
         .slice(1)
         .map(function(str, index) {
             var channel = str.split('\n').slice(0,-1);
