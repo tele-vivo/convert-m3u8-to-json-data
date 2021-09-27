@@ -1,1 +1,41 @@
-html cabbel
+<script>
+var playlist = '
+#EXTM3U #EXTINF:-1,TELEMUNDO
+http://iphone-streaming.ustream.tv/ustreamVideo/21733416/streams/live/playlist.m3u8
+#EXTINF:0,TELEMUNDO
+http://iphone-streaming.ustream.tv/ustreamVideo/21733416/streams/live/playlist.m3u8
+
+#EXTINF:-1,UNIVISION
+http://iphone-streaming.ustream.tv/ustreamVideo/21680354/streams/live/playlist.m3u8
+#EXTINF:0,UNIVISION 1
+http://iphone-streaming.ustream.tv/ustreamVideo/21680354/streams/live/playlist.m3u8
+
+#EXTINF:-1,TVeo Miami
+http://iphone-streaming.ustream.tv/uhls/14034121/streams/live/iphone/playlist.m3u8';
+
+function m3utojson(m3u) {
+    return m3u
+        .replace('#EXTM3U', '')
+        .split('#EXTINF:0,')
+        .slice(1)
+        .map(function(str, index) {
+            var channel = str.split('\n').slice(0,-1);
+
+            return {
+                "id": index + 1,
+                "number": index + 1,
+                "title": channel[0],
+                "tv_logo": "",
+                "tv_categories": [2],
+                "streaming_url": channel[1],
+                "announce": "",
+                "volume_shift": 0
+            };
+        });
+}
+
+
+var parseM3U = m3utojson(playlist) ;
+
+console.log(parseM3U);
+</script>
