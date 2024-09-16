@@ -1,1 +1,89 @@
-html cabbel
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+/*var playlist = '
+#EXTM3U #EXTINF:-1,TELEMUNDO
+http://iphone-streaming.ustream.tv/ustreamVideo/21733416/streams/live/playlist.m3u8
+#EXTINF:0,TELEMUNDO
+http://iphone-streaming.ustream.tv/ustreamVideo/21733416/streams/live/playlist.m3u8
+
+#EXTINF:-1,UNIVISION
+http://iphone-streaming.ustream.tv/ustreamVideo/21680354/streams/live/playlist.m3u8
+#EXTINF:0,UNIVISION 1
+http://iphone-streaming.ustream.tv/ustreamVideo/21680354/streams/live/playlist.m3u8
+
+#EXTINF:-1,TVeo Miami
+http://iphone-streaming.ustream.tv/uhls/14034121/streams/live/iphone/playlist.m3u8';
+*/
+var url = 'https://raw.githubusercontent.com/tele-vivo/convert-m3u8-to-json-data/dev-01/index.m3u8';
+//var url = 'https://gist.githubusercontent.com/moisesnalves/92a0d8fa0b2b57e9cd5d44ec129e28a3/raw/3307c8a3043170b6b078ab1eef128cf016af8694/rogtv.m3u';
+
+
+ /*
+function A1A(url){
+	  return  $.ajax({
+			url: url,
+			success: function(result){
+        }
+    },'text');
+}
+*/
+
+$.when(
+	$.ajax({
+		url: url,
+		success: function(result){
+       }
+   },'text'))
+   .done(function(ajax1Results){
+  
+   
+   const filteredArray = m3utojson(ajax1Results).filter(Boolean);
+    console.log(typeof(filteredArray));
+    console.log(JSON.stringify(filteredArray));
+	
+		var  t = "const Canales = " + (JSON.stringify((filteredArray), '\n', 4));
+		console.log(t);
+		const downloadToFile = (content, filename, contentType) => {
+		const a = document.createElement('a');
+		const file = new Blob([t], {type: contentType});
+		a.href= URL.createObjectURL(file);
+		a.download = filename;
+		a.click();
+		URL.revokeObjectURL(a.href);
+	};
+	document.querySelector('#btnSave').addEventListener('click', () => {
+	downloadToFile(t, 'my-new-file.js', 'text/plain');
+	});
+});
+
+
+
+function m3utojson(m3u) {
+
+    return m3u
+        .replace('#EXTM3U', '')
+        .split('#EXTINF:-1 ')
+        .slice(1)
+        .map(function(str, index) {
+            var channel = str.split('\n').slice(0,-1);
+			if( channel[1].indexOf('m3u8') >= 0){
+			//check if m44 file
+            return {
+                 "id": index + 1,
+                 "title": channel[0].split('"')[1],
+                 "tittle": channel[0].split('"')[3],
+                 "ts": channel[0].split(',')[1],
+                 "url": channel[1]
+                                           
+            }
+			}
+        });
+		
+}
+
+
+
+
+</script>
+
+ <input type="button" id="btnSave" name="fname"><br><br>
